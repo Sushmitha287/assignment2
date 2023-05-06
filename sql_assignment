@@ -1,0 +1,153 @@
+-- 1st question
+--creating database for online consultation and theraphy website.
+CREATE DATABASE ONLINE_CONSULTATION;
+
+-- doctor table : the tables should contains the attributes such as id,name,specilization.
+CREATE TABLE DOCTOR(D_ID INT PRIMARY KEY NOT NULL,
+D_NAME VARCHAR(40) NOT NULL,
+SPECILIZAATION VARCHAR(40) NOT NULL,
+D_GENDER VARCHAR(30),
+D_CONTANCT_NO INT NOT NULL,
+EXPERIENCE_YEARS INT NOT NULL,
+LICENSE_NO INT NOT NULL);
+
+SELECT * FROM DOCTOR;
+
+INSERT INTO DOCTOR VALUES(101,'SUSHMITHA','CARDIOLOGY','FEMALE',99577,6,567);
+INSERT INTO DOCTOR VALUES(102,'SANATH','DERMATOLOGY','MALE',89567,5,565),
+(103,'MANJU','ENDOCRINOLOGY','MALE',94567,6,566),
+(104,'SUSHU','HEMATOLOGY','FEMALE',99565,7,557),
+(105,'ARJUN','CARDIOLOGY','MALE',99267,5,467),
+(106,'PRASHANTH','NEUROLOGY','MALE',91567,8,547),
+(107,'ADHI','ONCOLOGY','MALE',99517,4,564),
+(108,'AKASH','HEMATOLOGY','MALE',99562,6,562),
+(109,'SHRESTA','GYNECOLOGY','FEMALE',99560,7,267),
+(110,'VARUN','GASTROENTEROLOGY','MALE',39567,4,367);
+
+-- Appointment table: the table should contain information related to appointments set up by doctors and patients.
+CREATE TABLE APPOINTMENT(APPOINTMENT_ID INT PRIMARY KEY NOT NULL,
+DOCTOR_ID INT NOT NULL,
+PATIENT_ID INT NOT NULL,
+APPOINTMENT_DATE DATE,
+APPOINTMENT_DURATION INT NOT NULL);
+
+SELECT * FROM APPOINTMENT;
+INSERT INTO APPOINTMENT VALUES(201,101,301,'2023-03-04',2),
+(202,102,302,'2023-03-05',6),
+(203,103,303,'2023-03-07',6),
+(204,104,304,'2023-03-05',2),
+(205,105,305,'2023-03-03',4),
+(206,106,306,'2023-03-02',5),
+(207,107,307,'2023-03-04',2),
+(208,108,308,'2023-03-04',3),
+(209,109,309,'2023-03-03',3),
+(210,110,310,'2023-03-06',4);
+
+-- patient table: the table should contain information on patients.
+
+CREATE TABLE PATIENT(PATIENT_ID INT PRIMARY KEY NOT NULL,
+P_NAME VARCHAR(40),
+P_GENDER VARCHAR(30),
+AGE INT NOT NULL,
+CONTACT_NO INT NOT NULL);
+
+SELECT * FROM PATIENT;
+INSERT INTO PATIENT VALUES(301,'RAM','MALE',30,453634),
+(302,'RAJ','MALE',35,453034),
+(303,'SRUJAN','MALE',20,453614),
+(304,'SOWMYA','FEMALE',30,451634),
+(305,'ANU','FEMALE',25,453234),
+(306,'SANJAY','MALE',28,453632),
+(307,'SREE','FEMALE',30,453633),
+(308,'ROOPA','FEMALE',40,453624),
+(309,'ANJU','FEMALE',56,443634),
+(310,'SANJU','MALE',34,453534);
+
+-- review table:this table should contain reviews posted by patients.
+
+CREATE TABLE REVIEW(REVIEW_ID INT PRIMARY KEY NOT NULL,
+PATIENT_ID INT NOT NULL,
+DOCTOR_ID INT NOT NULL,
+RATING INT NOT NULL,
+DESCRIPTION VARCHAR(50));
+
+SELECT * FROM REVIEW;
+INSERT INTO REVIEW VALUES(10,301,101,5,'GOOD'),
+(11,302,102,5,'GOOD'),
+(12,303,103,4,'GOOD'),
+(13,304,104,3,'SATISFIED'),
+(14,305,105,5,'GOOD'),
+(15,306,106,5,'NICE'),
+(16,307,107,4,'GOOD'),
+(17,308,108,5,'GOOD'),
+(18,309,109,4,'CARING'),
+(19,310,110,5,'VERY GOOD');
+
+-- second question--------------------------------------------------------------------------------
+-- creating contact table
+CREATE TABLE CONTACT(ID INT PRIMARY KEY NOT NULL,
+EMAIL VARCHAR(90) NOT NULL,
+FNAME VARCHAR(30),
+LNAME VARCHAR(30),
+COMPANY VARCHAR(30),
+ACTIVE_FLAG INT NOT NULL,
+OPT_OUT INT NOT NULL);
+
+INSERT INTO CONTACT VALUES(123,'a@a.com','Kian','Seth','ABC',1,1),
+(133,'b@a.com','Neha','Seth','ABC',1,0),
+(234,'c@a.com','Puru','Malik','CDF',0,0),
+(342,'d@a.com','Sid','Maan','TEG',1,0);
+
+SELECT * FROM CONTACT;
+
+-- select all columns from the contact table where the active flag is 1.
+SELECT * FROM CONTACT WHERE ACTIVE_FLAG=1;
+
+-- deactivate contacts who are opted out.
+DELETE FROM CONTACT WHERE OPT_OUT=0;
+
+-- delete all the contacts who have the company name as 'ABC'.
+DELETE FROM CONTACT WHERE COMPANY='ABC';
+
+-- insert a row with id as 658,name as 'mill',email as 'mili@gmail.com', the company as 'DGH', active flag as 1,opt-out flag as 1.
+INSERT INTO CONTACT VALUES(658,'mili@gmail.com','Mili',' ','DGH',1,1);
+
+-- pull out the unique values of the company column
+SELECT DISTINCT(COMPANY) FROM CONTACT;
+
+-- update name "mili" to "niti"
+UPDATE CONTACT SET FNAME='NITI' WHERE EMAIL='mili@gmail.com';
+
+-- 3RD question-------------------------------------------------------------------------------------------
+CREATE TABLE CUSTOMER(CUSTOMER_ID INT NOT NULL,
+CUST_NAME VARCHAR(30),
+CITY VARCHAR(30),
+GRADE INT ,
+SALESMAN_ID INT NOT NULL);
+
+SELECT * FROM CUSTOMER;
+
+INSERT INTO CUSTOMER VALUES(3002,'Nick Rimando','New York',100,5001),
+(3007,'Brad Davis','New York',200,5001),
+(3005,'Graham Zusi','California',200,5002),
+(3008,'Julian','London',300,5002),
+(3004,'Fabian','Paris',300,5002),
+(3009,'Geoff Cameron','Berlin',100,5003),
+(3003,'Jozy Altidor','Moscow',200,5007);
+INSERT INTO CUSTOMER (CUSTOMER_ID,CUST_NAME,CITY,SALESMAN_ID) values (3001,'Brad Guzan','London',5005);
+
+-- salesman table
+CREATE TABLE SALESMAN(SALESMAN_ID INT PRIMARY KEY,
+NAME VARCHAR(40),
+CITY VARCHAR(30),
+COMMISSION REAL);
+
+INSERT INTO SALESMAN VALUES(5001,'James Hoog','New York',0.15),
+(5002,'Nail Knite','Paris',0.13),
+(5005,'Pit Alex','London',0.11),
+(5006,'Mc Lyon','Paris',0.14),
+(5007,'Paul Adam','Rome',0.13),
+(5003,'Lauson Hen','San Jose',0.12);
+
+-- write a SQL query to find those customers with a grade less than 100.it should return cust_name,customer city,grade,salesman,salesman city.the result should be ordered by ascending customer_id. 
+SELECT C.CUST_NAME,C.CITY,C.GRADE,S.NAME,S.CITY FROM CUSTOMER C,SALESMAN S WHERE C.GRADE < 100 AND C.SALESMAN_ID = S.SALESMAN_ID;
